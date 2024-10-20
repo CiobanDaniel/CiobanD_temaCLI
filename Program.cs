@@ -56,6 +56,7 @@ namespace CiobanD_temaCLI
 
             KeyboardState keyboard = OpenTK.Input.Keyboard.GetState();
             MouseState mouse = OpenTK.Input.Mouse.GetState();
+            Point mousePosition = base.PointToClient(new Point(mouse.X, mouse.Y));
 
             // Se utilizeaza mecanismul de control input oferit de OpenTK (include perifcerice multiple, mai ales pentru gaming - gamepads, joysticks, etc.).
             if (keyboard[OpenTK.Input.Key.Escape])
@@ -98,6 +99,15 @@ namespace CiobanD_temaCLI
                 {
                     showCube = true;
                 }
+            }
+            
+            if (mousePosition.X < 0)
+            {
+                angle -= rotation_speed * (float)e.Time;
+            }
+            else if (mousePosition.X > Width/2)
+            {
+                angle += rotation_speed * (float)e.Time;
             }
         }
 
