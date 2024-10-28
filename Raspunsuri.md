@@ -1,42 +1,42 @@
-## Problema 1
-Dacă este modificată constanta MatrixMode.Projection, proiectarea corectă a scenei 3D nu mai are loc, ceea ce duce la o afișare incorectă a obiectelor pe ecran.
+# Răspunsuri tema 3
 
-## Problema 3
-1. Ce este un viewport?
+## Întrebarea 2
+Anti-aliasing este o tehnică folosită pentru a reduce efectele vizuale nedorite cauzate de eșantionarea discretă a obiectelor grafice, cum ar fi marginile zimțate (aliasing). În general, aliasing-ul apare atunci când marginile drepte ale obiectelor sunt reprezentate pe o grilă pixelată, cum ar fi un ecran, și nu se aliniază perfect cu pixelii.
+Pentru a reduce acest efect, anti-aliasing-ul funcționează prin suprapozarea mai multor mostre (sampling) pentru fiecare pixel și calcularea unei culori medii. Acest lucru face tranzițiile între obiecte și fundal mai fine și marginile mai netede.
 
-Un viewport este o zonă dreptunghiulară din fereastra de afișare în care sunt desenate obiectele OpenGL. Practic, el definește porțiunea din fereastră unde vor fi mapate coordonatele din scena 3D (coordonatele normalizate). Setarea unui viewport se face cu funcția glViewport(x, y, width, height), unde x și y definesc colțul din stânga jos, iar width și height specifică dimensiunile dreptunghiului de afișare.
+## Întrebarea 3
+- GL.LineWidth(float): Această comandă setează grosimea liniilor. De exemplu, dacă GL.LineWidth(2.0) este apelată, toate liniile desenate ulterior vor fi de două ori mai groase decât dimensiunea implicită.
 
-2. Ce reprezintă conceptul de frames per second (FPS) din punctul de vedere al bibliotecii OpenGL?
+- GL.PointSize(float): Setează dimensiunea punctelor desenate. De exemplu, GL.PointSize(5.0) va face ca toate punctele să aibă diametrul de 5 pixeli.
 
-În OpenGL, frames per second (FPS) reprezintă numărul de cadre pe secundă care sunt desenate și afișate pe ecran de către aplicație. Un FPS mai mare indică o performanță mai bună și o animație mai fluidă. FPS este calculat ca raportul dintre numărul de cadre renderizate și timpul total de execuție. Bibliotecile OpenGL permit controlul vitezei de randare pentru a ajusta performanța și fluiditatea graficii, ceea ce este important în aplicațiile interactive.
+Ambele comenzi trebuie plasate în afara secțiunilor GL.Begin() pentru a avea efect, deoarece setările generale de stil se aplică înainte de începerea desenării unui obiect. Ele afectează toate obiectele care sunt desenate ulterior până când sunt setate noi dimensiuni pentru linii sau puncte.
 
-3. Când este rulată metoda OnUpdateFrame()?
+## Întrebarea 4
+- LineLoop: Desenează o serie de linii conectate între vertexuri, iar ultimul vertex este conectat înapoi la primul, formând o buclă închisă. Ideal pentru a desena contururi sau forme poligonale.
 
-Metoda OnUpdateFrame() este apelată înainte de randarea fiecărui cadru, având rolul de a actualiza starea logică a aplicației (de exemplu, poziția obiectelor, animațiile sau interacțiunile cu utilizatorul). Aceasta se ocupă de logica de calcul și procesare necesară pentru a pregăti scena înainte de randare.
+- LineStrip: Desenează o linie continuă prin conectarea fiecărui vertex la următorul, fără a conecta ultimul vertex la primul. Formează o linie deschisă.
 
-4. Ce este modul imediat de randare?
+- TriangleFan: Desenează un grup de triunghiuri care împărtășesc un vertex central (primul vertex). Fiecare triunghi este creat cu un nou vertex și primele două vertexuri ale triunghiului anterior. Util pentru desenarea de forme circulare sau discuri.
 
-Modul imediat de randare este o metodă de randare disponibilă în versiunile mai vechi de OpenGL, în care fiecare punct, linie sau poligon era desenat imediat ce era specificat prin funcții. În acest mod, datele geometrice erau trimise la GPU cadru cu cadru, ceea ce făcea ca această metodă să fie mai puțin eficientă decât tehnicile moderne bazate pe „vertex buffers” (VBOs) sau „vertex array objects” (VAOs).
+- TriangleStrip: Desenează o serie de triunghiuri conectate, unde fiecare triunghi după primul este format din două vertexuri ale triunghiului anterior și un vertex nou. Această metodă este eficientă pentru a desena suprafețe complexe cu puține vertexuri.
 
-5. Care este ultima versiune de OpenGL care acceptă modul imediat?
+## Întrebarea 6
+Utilizarea de culori diferite pe un obiect 3D, fie prin gradient, fie prin selectarea culorilor pentru fiecare față, ajută la îmbunătățirea percepției adâncimii și a detaliilor obiectului. Un obiect cu o singură culoare poate părea plat și greu de distins. În schimb, variațiile de culoare fac ca obiectul să fie mai realist, subliniind formele și contururile sale.
 
-Ultima versiune de OpenGL care acceptă modul imediat este OpenGL 3.2, în care modul imediat a devenit depășit (deprecated). Începând cu OpenGL 3.3 și versiunile superioare, acest mod nu mai este suportat oficial și a fost înlocuit de metodele moderne de randare (ex. VBO, VAO).
+Avantajele includ:
 
-6. Când este rulată metoda OnRenderFrame()?
+- Adâncime vizuală: Culorile mai deschise sau mai închise pot sugera iluminarea sau umbrirea suprafeței, oferind o iluzie de tridimensionalitate.
+- Îmbunătățirea esteticii: Face obiectele mai atractive și mai ușor de diferențiat.
+- Realism: Utilizarea culorilor sau texturilor variate face ca obiectele să arate mai naturale.
 
-Metoda OnRenderFrame() este rulată atunci când un nou cadru este gata să fie desenat pe ecran. Aceasta este responsabilă de efectivul proces de randare a scenei, inclusiv desenarea obiectelor și aplicarea eventualelor efecte vizuale. Ea este executată de fiecare dată când este nevoie să se actualizeze conținutul afișat în fereastră.
+## Întrebarea 7
+Un gradient de culoare este o tranziție treptată între două sau mai multe culori. Acest efect este utilizat frecvent pentru a crea tranziții netede între culori și poate fi aplicat atât la obiecte 2D cât și 3D pentru a simula efecte de lumină sau texturi mai complexe.
 
-7. De ce este nevoie ca metoda OnResize() să fie executată cel puțin o dată?
+În OpenGL, se poate obține un gradient de culoare aplicând culori diferite pentru fiecare vertex folosind glColor() înainte de a specifica vertexurile. OpenGL va interpola automat culorile între vertexuri, rezultând un gradient pe suprafața obiectului.
 
-Metoda OnResize() trebuie executată cel puțin o dată pentru a ajusta corect viewport-ul și matrițele de proiecție în funcție de dimensiunea actuală a ferestrei de afișare. Această metodă recalibrează proiecția scenei 3D astfel încât să se potrivească cu dimensiunea și proporțiile ferestrei, asigurându-se că imaginea afișată nu este distorsionată sau decupată.
+## Întrebarea 10
+Când se aplică o culoare diferită fiecărui vertex într-o linie sau un triunghi desenat în modul strip (de exemplu, TriangleStrip sau LineStrip), OpenGL va interpola culorile între vertexuri. Acest proces de interpolare rezultă într-un efect de gradient pe segmentele respective.
 
-8. Ce reprezintă parametrii metodei CreatePerspectiveFieldOfView() și care este domeniul de valori pentru aceștia?
+Pentru linii, fiecare segment de linie dintre două vertexuri va avea o tranziție graduală între cele două culori definite la fiecare capăt al segmentului.
 
-Metoda CreatePerspectiveFieldOfView() este folosită pentru a seta o proiecție în perspectivă pentru o scenă 3D, utilizând următorii parametri:
-
-- fieldOfViewY: unghiul de vedere pe verticală (în radiani), reprezentând cât de „larg” este câmpul vizual. Domeniul tipic de valori este între 45 și 90 de grade (aproximativ 0.785 radiani - 1.57 radiani).
-- aspectRatio: raportul dintre lățimea și înălțimea ferestrei de vizualizare. Valoarea acestuia trebuie să fie un număr pozitiv.
-- znear: distanța până la planul apropiat de tăiere (near clipping plane). Această valoare trebuie să fie un număr pozitiv, foarte aproape de 0 (de exemplu, 0.1).
-- zfar: distanța până la planul îndepărtat de tăiere (far clipping plane). Valoarea trebuie să fie un număr pozitiv, mai mare decât znear.
-
-Acești parametri controlează cum este proiectată scena 3D pe ecran, determinând zona vizibilă din spațiul 3D și modul în care sunt percepute distanțele între obiecte.
+Pentru triunghiuri, se va crea un gradient de culoare pe întreaga suprafață a triunghiului, ceea ce poate ajuta la simularea iluminării sau texturilor pe obiecte complexe.
