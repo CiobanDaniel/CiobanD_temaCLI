@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E6C4FF1-6C09-4067-BFC8-86F7712C9513}"
 	ProjectSection(SolutionItems) = preProject
 		Raspunsuri.md = Raspunsuri.md
+		bin\Debug\triangle.txt = bin\Debug\triangle.txt
 	EndProjectSection
 EndProject
 Global
